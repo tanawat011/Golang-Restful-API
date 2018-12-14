@@ -1,0 +1,187 @@
+{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "description": "the purpose of this application is to provide an application\nthat is using plain go code to define an API\n\nThis should demonstrate all the possible comment annotations\nthat are available to turn go code into a fully compliant swagger 2.0 spec",
+    "title": "People API.",
+    "termsOfService": "there are no TOS at this moment, use at your own risk we take no responsibility",
+    "contact": {
+      "name": "Jean-Thierry Bonhomme",
+      "url": "http://john.doe.com",
+      "email": "jtbonhomme@gmail.com"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "http://opensource.org/licenses/MIT"
+    },
+    "version": "0.0.1"
+  },
+  "host": "localhost:3000",
+  "basePath": "/v1",
+  "paths": {
+    "/people": {
+      "get": {
+        "description": "This will show all recorded people.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "http",
+          "https"
+        ],
+        "tags": [
+          "people"
+        ],
+        "summary": "Lists all people.",
+        "operationId": "listPeople",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/peopleResponse"
+          },
+          "default": {
+            "$ref": "#/responses/genericError"
+          }
+        }
+      }
+    },
+    "/people/{id}": {
+      "get": {
+        "description": "This will show the record of an identified person.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "http",
+          "https"
+        ],
+        "tags": [
+          "people"
+        ],
+        "summary": "Lists person from their id.",
+        "operationId": "listPerson",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "ID",
+            "description": "The ID of a person",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/personResponse"
+          },
+          "404": {
+            "$ref": "#/responses/jsonError"
+          },
+          "default": {
+            "$ref": "#/responses/genericError"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Address": {
+      "description": "Address description",
+      "type": "object",
+      "properties": {
+        "city": {
+          "type": "string",
+          "x-go-name": "City"
+        },
+        "state": {
+          "type": "string",
+          "x-go-name": "State"
+        }
+      },
+      "x-go-package": "github/Tanawat_DEVz/example-rest-api2/models"
+    },
+    "person": {
+      "type": "object",
+      "title": "Person description.",
+      "required": [
+        "id",
+        "firstname",
+        "lastname"
+      ],
+      "properties": {
+        "address": {
+          "$ref": "#/definitions/Address"
+        },
+        "firstname": {
+          "description": "Firstname of person",
+          "type": "string",
+          "x-go-name": "Firstname"
+        },
+        "id": {
+          "description": "ID of person",
+          "type": "string",
+          "x-go-name": "ID"
+        },
+        "lastname": {
+          "description": "Lastname of person",
+          "type": "string",
+          "x-go-name": "Lastname"
+        }
+      },
+      "x-go-name": "Person",
+      "x-go-package": "github/Tanawat_DEVz/example-rest-api2/models"
+    }
+  },
+  "responses": {
+    "genericError": {
+      "description": "A GenericError is a swagger response to represent any kind of error",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32",
+            "x-go-name": "Code"
+          },
+          "message": {
+            "type": "string",
+            "x-go-name": "Message"
+          }
+        }
+      }
+    },
+    "jsonError": {
+      "description": "A JsonError is a generic error in JSON format"
+    },
+    "peopleResponse": {
+      "description": "A PeopleResponse constains all people information",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/person"
+        }
+      }
+    },
+    "personResponse": {
+      "description": "A PersonResponse contains a person information",
+      "schema": {
+        "$ref": "#/definitions/person"
+      }
+    }
+  }
+}
